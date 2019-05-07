@@ -1,6 +1,6 @@
 version: "3"
 services:
-  web:
+  bc_client:
     build:
       context: ./blockchain_client
       dockerfile: Dockerfile
@@ -8,9 +8,23 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - FLASK_APP=app
+      - FLASK_APP=client
       - FLASK_ENV=development
     volumes:
-      - ./app:/app
+      - ./blockchain_client:/app
+
+  bc_server:
+    build:
+      context: ./blockchain_server
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_APP=server
+      - FLASK_ENV=development
+    volumes:
+      - ./blockchain_server:/app
+
 
 
